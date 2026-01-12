@@ -8,13 +8,18 @@ namespace esphome
     {
 
         static const char *const TAG = "ratgdo.sensor";
-        static const int MIN_DISTANCE = 100;  // ignore bugs crawling on the distance sensor & dust protection film
-        static const int MAX_DISTANCE = 4000; // default maximum distance
+        static const uint16_t MIN_DISTANCE = 100;  // ignore bugs crawling on the distance sensor & dust protection film
+        static const uint16_t MAX_DISTANCE = 4000; // default maximum distance
 
 #ifdef USE_DISTANCE
         RATGDOSensor::RATGDOSensor() : distance_sensor_(&Wire, 33)
         {
-            // Constructor implementation
+            // Constructor implementation with distance sensor
+        }
+#else
+        RATGDOSensor::RATGDOSensor()
+        {
+            // Constructor implementation without distance sensor
         }
 #endif
 
@@ -22,37 +27,37 @@ namespace esphome
         {
             if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_OPENINGS)
             {
-                this->parent_->subscribe_openings([=](uint16_t value)
+                this->parent_->subscribe_openings([this](uint16_t value)
                                                   { this->publish_state(value); });
             }
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_PAIRED_DEVICES_TOTAL)
             {
-                this->parent_->subscribe_paired_devices_total([=](uint16_t value)
+                this->parent_->subscribe_paired_devices_total([this](uint16_t value)
                                                               { this->publish_state(value); });
             }
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_PAIRED_REMOTES)
             {
-                this->parent_->subscribe_paired_remotes([=](uint16_t value)
+                this->parent_->subscribe_paired_remotes([this](uint16_t value)
                                                         { this->publish_state(value); });
             }
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_PAIRED_KEYPADS)
             {
-                this->parent_->subscribe_paired_keypads([=](uint16_t value)
+                this->parent_->subscribe_paired_keypads([this](uint16_t value)
                                                         { this->publish_state(value); });
             }
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_PAIRED_WALL_CONTROLS)
             {
-                this->parent_->subscribe_paired_wall_controls([=](uint16_t value)
+                this->parent_->subscribe_paired_wall_controls([this](uint16_t value)
                                                               { this->publish_state(value); });
             }
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_PAIRED_ACCESSORIES)
             {
-                this->parent_->subscribe_paired_accessories([=](uint16_t value)
+                this->parent_->subscribe_paired_accessories([this](uint16_t value)
                                                             { this->publish_state(value); });
             }
-#ifdef USE_DISTANCE            
             else if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_DISTANCE)
             {
+#ifdef USE_DISTANCE
                 VL53L1X distance_sensor_(&Wire, 33);
                 VL53L1X_Error rc = VL53L1X_ERROR_NONE;
                 Wire.begin(this->parent_->get_tof_sda_pin(), this->parent_->get_tof_scl_pin(), 400000);
@@ -79,9 +84,10 @@ namespace esphome
                     ESP_LOG1(TAG, "VL53L1X_StartMeasurement error: %d", rc);
                     return;
                 }
-                this->parent_->subscribe_distance_measurement([=](int16_t value) { this->publish_state(value); });
-            }
+
+                this->parent_->subscribe_distance_measurement([this](int16_t value) { this->publish_state(value); });
 #endif
+            }
         }
 
         void RATGDOSensor::dump_config()
@@ -116,9 +122,10 @@ namespace esphome
                 ESP_LOGCONFIG(TAG, "  Type: Distance");
             }
         }
-#ifdef USE_DISTANCE
+
         void RATGDOSensor::loop()
         {
+#ifdef USE_DISTANCE
             uint32_t current_millis = millis();
             if (this->ratgdo_sensor_type_ == RATGDOSensorType::RATGDO_DISTANCE)
             {
@@ -136,7 +143,7 @@ namespace esphome
                     distance_sensor_.VL53L1X_ClearInterrupt();
                 }
             }
-        }
 #endif
+        }
     } // namespace ratgdo
 } // namespace esphome

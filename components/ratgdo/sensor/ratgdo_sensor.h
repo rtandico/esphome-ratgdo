@@ -25,12 +25,10 @@ namespace ratgdo {
 
     class RATGDOSensor : public sensor::Sensor, public RATGDOClient, public Component {
     public:
-#ifdef USE_DISTANCE
         RATGDOSensor();
-        void loop() override;
-#endif
         void dump_config() override;
         void setup() override;
+        void loop() override;
         void set_ratgdo_sensor_type(RATGDOSensorType ratgdo_sensor_type_) { this->ratgdo_sensor_type_ = ratgdo_sensor_type_; }
         uint16_t last_distance { 0 };
         uint32_t last_distance_millis { 0 };
