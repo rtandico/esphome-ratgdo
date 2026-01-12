@@ -82,8 +82,8 @@ namespace ratgdo {
     // its children components might require that
     void RATGDOComponent::init_protocol()
     {
-#ifdef PROTOCOL_SECPLUSV2
-        this->protocol_ = new secplus2::Secplus2();
+// #ifdef PROTOCOL_SECPLUSV2
+//        this->protocol_ = new secplus2::Secplus2();
 #endif
 #ifdef PROTOCOL_SECPLUSV1
         this->protocol_ = new secplus1::Secplus1();
