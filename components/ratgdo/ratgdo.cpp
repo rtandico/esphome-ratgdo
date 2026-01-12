@@ -16,7 +16,7 @@
 #include "dry_contact.h"
 #include "ratgdo_state.h"
 #include "secplus1.h"
-#include "secplus2.h"
+// #include "secplus2.h"
 
 #include "esphome/core/application.h"
 #include "esphome/core/gpio.h"
