@@ -39,9 +39,9 @@ CONF_ON_SYNC_FAILED = "on_sync_failed"
 CONF_PROTOCOL = "protocol"
 
 PROTOCOL_SECPLUSV1 = "secplusv1"
-# PROTOCOL_SECPLUSV2 = "secplusv2"
+PROTOCOL_SECPLUSV2 = "secplusv2"
 PROTOCOL_DRYCONTACT = "drycontact"
-SUPPORTED_PROTOCOLS = [PROTOCOL_SECPLUSV1, PROTOCOL_DRYCONTACT] # PROTOCOL_SECPLUSV2, PROTOCOL_DRYCONTACT]
+SUPPORTED_PROTOCOLS = [PROTOCOL_SECPLUSV1, PROTOCOL_SECPLUSV2, PROTOCOL_DRYCONTACT]
 
 CONF_DRY_CONTACT_OPEN_SENSOR = "dry_contact_open_sensor"
 CONF_DRY_CONTACT_CLOSE_SENSOR = "dry_contact_close_sensor"
@@ -90,7 +90,7 @@ CONFIG_SCHEMA = cv.All(
                     cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(SyncFailed),
                 }
             ),
-            cv.Optional(CONF_PROTOCOL, default=PROTOCOL_SECPLUSV2): cv.All(
+            cv.Optional(CONF_PROTOCOL, default=PROTOCOL_SECPLUSV1): cv.All(
                 vol.In(SUPPORTED_PROTOCOLS)
             ),
             # cv.Inclusive(CONF_DRY_CONTACT_OPEN_SENSOR,CONF_DRY_CONTACT_SENSOR_GROUP): cv.use_id(binary_sensor.BinarySensor),
