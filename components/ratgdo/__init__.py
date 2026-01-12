@@ -39,9 +39,9 @@ CONF_ON_SYNC_FAILED = "on_sync_failed"
 CONF_PROTOCOL = "protocol"
 
 PROTOCOL_SECPLUSV1 = "secplusv1"
-PROTOCOL_SECPLUSV2 = "secplusv2"
+# PROTOCOL_SECPLUSV2 = "secplusv2"
 PROTOCOL_DRYCONTACT = "drycontact"
-SUPPORTED_PROTOCOLS = [PROTOCOL_SECPLUSV1, PROTOCOL_SECPLUSV2, PROTOCOL_DRYCONTACT]
+SUPPORTED_PROTOCOLS = [PROTOCOL_SECPLUSV1, PROTOCOL_DRYCONTACT] # PROTOCOL_SECPLUSV2, PROTOCOL_DRYCONTACT]
 
 CONF_DRY_CONTACT_OPEN_SENSOR = "dry_contact_open_sensor"
 CONF_DRY_CONTACT_CLOSE_SENSOR = "dry_contact_close_sensor"
@@ -161,8 +161,8 @@ async def to_code(config):
 
     if config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV1:
         cg.add_define("PROTOCOL_SECPLUSV1")
-    elif config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV2:
-        cg.add_define("PROTOCOL_SECPLUSV2")
+    # elif config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV2:
+    #    cg.add_define("PROTOCOL_SECPLUSV2")
     elif config[CONF_PROTOCOL] == PROTOCOL_DRYCONTACT:
         cg.add_define("PROTOCOL_DRYCONTACT")
     cg.add(var.init_protocol())
