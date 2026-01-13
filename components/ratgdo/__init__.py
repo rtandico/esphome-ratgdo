@@ -161,8 +161,8 @@ async def to_code(config):
 
     if config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV1:
         cg.add_define("PROTOCOL_SECPLUSV1")
-    # elif config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV2:
-    #    cg.add_define("PROTOCOL_SECPLUSV2")
+    elif config[CONF_PROTOCOL] == PROTOCOL_SECPLUSV2:
+        cg.add_define("PROTOCOL_SECPLUSV2")
     elif config[CONF_PROTOCOL] == PROTOCOL_DRYCONTACT:
         cg.add_define("PROTOCOL_DRYCONTACT")
     cg.add(var.init_protocol())
