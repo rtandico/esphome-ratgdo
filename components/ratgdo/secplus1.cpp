@@ -297,7 +297,7 @@ namespace ratgdo {
         {
             if (cmd.req == CommandType::TOGGLE_DOOR_RELEASE || cmd.resp == 0x31) {
                 ESP_LOGD(TAG, "wall panel is starting");
-                this->wall_panel_starting_ = true;
+                this->wall_panel_starting_ = false; //changed from true to prevent from transferring to wall panel mode
             } else if (cmd.req == CommandType::QUERY_DOOR_STATUS) {
 
                 DoorState door_state;
